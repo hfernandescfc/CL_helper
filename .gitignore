@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Envs
+.env
+
+# OS
+.DS_Store
+
+# Data/Warehouse
+warehouse/warehouse.duckdb
+data/raw/
+
+# Streamlit
+.streamlit/
+

@@ -1,0 +1,37 @@
+id,name,shortName,tla,area_id,area_name,founded,clubColors,venue,website
+3,Bayer 04 Leverkusen,Leverkusen,B04,2088,Germany,1904,Red / White / Black,BayArena,http://www.bayer04.de
+4,Borussia Dortmund,Dortmund,BVB,2088,Germany,1909,Black / Yellow,Signal Iduna Park,http://www.bvb.de
+5,FC Bayern München,Bayern,FCB,2088,Germany,1900,Red / White / Blue,Allianz Arena,http://www.fcbayern.de
+19,Eintracht Frankfurt,Frankfurt,SGE,2088,Germany,1899,Red / Black,Deutsche Bank Park,http://www.eintracht.de
+57,Arsenal FC,Arsenal,ARS,2072,England,1886,Red / White,Emirates Stadium,http://www.arsenal.com
+61,Chelsea FC,Chelsea,CHE,2072,England,1905,Royal Blue / White,Stamford Bridge,http://www.chelseafc.com
+64,Liverpool FC,Liverpool,LIV,2072,England,1892,Red / White,Anfield,http://www.liverpoolfc.tv
+65,Manchester City FC,Man City,MCI,2072,England,1880,Sky Blue / White,Etihad Stadium,https://www.mancity.com
+67,Newcastle United FC,Newcastle,NEW,2072,England,1881,Black / White,St. James' Park,http://www.nufc.co.uk
+73,Tottenham Hotspur FC,Tottenham,TOT,2072,England,1882,Navy Blue / White,Tottenham Hotspur Stadium,http://www.tottenhamhotspur.com
+77,Athletic Club,Athletic,ATH,2224,Spain,1898,Red / White / Black,San Mamés,http://www.athletic-club.eus
+78,Club Atlético de Madrid,Atleti,ATL,2224,Spain,1903,Red / White / Blue,Estadio Wanda Metropolitano,http://www.clubatleticodemadrid.com
+81,FC Barcelona,Barça,FCB,2224,Spain,1899,Red / Navy Blue / Orange,Camp Nou,http://www.fcbarcelona.com
+86,Real Madrid CF,Real Madrid,RMA,2224,Spain,1902,White / Purple,Estadio Santiago Bernabéu,http://www.realmadrid.com
+94,Villarreal CF,Villarreal,VIL,2224,Spain,1923,Yellow / Blue,Estadio de la Cerámica,http://www.villarrealcf.es
+102,Atalanta BC,Atalanta,ATA,2114,Italy,1904,Black / Blue,Stadio Atleti Azzurri d'Italia,http://www.atalanta.it
+108,FC Internazionale Milano,Inter,INT,2114,Italy,1908,Blue / Black,Stadio Giuseppe Meazza,http://www.inter.it
+109,Juventus FC,Juventus,JUV,2114,Italy,1897,White / Black,Allianz Stadium,http://www.juventus.com
+113,SSC Napoli,Napoli,NAP,2114,Italy,1904,Sky Blue / White,Stadio San Paolo,http://www.sscnapoli.it
+498,Sporting Clube de Portugal,Sporting CP,SPO,2187,Portugal,1906,Green / White,Estádio José Alvalade,http://www.sporting.pt
+516,Olympique de Marseille,Marseille,MAR,2081,France,1898,White / Blue,Orange Vélodrome,http://www.om.net
+524,Paris Saint-Germain FC,PSG,PSG,2081,France,1904,Red / Blue / White,Parc des Princes,http://www.psg.fr
+548,AS Monaco FC,Monaco,ASM,2152,Monaco,1919,Red / White,Stade Louis II.,http://www.asmonaco.com
+610,Galatasaray SK,Galatasaray,GAL,2247,Turkey,1905,Red / Yellow,Türk Telekom Arena,http://www.galatasaray.org
+611,Qarabağ Ağdam FK,Qarabağ Ağdam,QAR,2017,Azerbaijan,1951,Black / White,Tofiq Bəhramov adına Respublika stadionu,http://www.qarabagh.com
+654,PAE Olympiakos SFP,Olympiakos,OLY,2093,Greece,1925,Red / White,Stadio Georgios Karaiskáki,http://www.olympiacos.org
+674,PSV,PSV,PSV,2163,Netherlands,1913,Red / White,Philips Stadion,http://www.psv.nl
+678,AFC Ajax,Ajax,AJA,2163,Netherlands,1900,Red / White,Johan Cruyff ArenA,http://www.ajax.nl
+851,Club Brugge KV,Club Brugge,CLU,2023,Belgium,1894,Blue / Black,Jan Breydelstadion,http://www.clubbrugge.be
+930,SK Slavia Praha,Slavia Praha,SLP,2062,Czech Republic,1892,Red / White,Sinobo Stadium,http://www.slavia.cz
+1876,FC København,København,KOB,2065,Denmark,1992,White / Blue,Telia Parken,http://www.fck.dk
+1903,Sport Lisboa e Benfica,SL Benfica,BEN,2187,Portugal,1904,,Estádio do Sport Lisboa e Benfica,https://www.slbenfica.pt
+3929,Royale Union Saint-Gilloise,Union SG,USG,2023,Belgium,1897,Blue / Yellow,Stade Joseph Mariën,http://www.rusg.brussels
+5721,FK Bodø/Glimt,Bodø/Glimt,FK,2173,Norway,1916,Yellow / Black,Aspmyra Stadion,http://www.glimt.no
+10601,FK Kairat,FK Kairat,KAI,2119,Kazakhstan,,,,
+11034,Paphos FC,Paphos FC,AEP,2061,Cyprus,,,Alphamega Stadium,

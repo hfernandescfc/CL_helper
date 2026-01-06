@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "footballdata-pipeline"
+version = "0.1.0"
+description = "ETL/ELT pipeline for Football-Data.org with DuckDB and Prefect"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Your Name" }]
+dependencies = [
+  "prefect>=2.14",
+  "duckdb>=1.0.0",
+  "pandas>=2.0",
+  "pyarrow>=15.0",
+  "requests>=2.31",
+  "python-dotenv>=1.0",
+  "pydantic-settings>=2.2",
+  "streamlit>=1.36",
+  "plotly>=5.22",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.5.0",
+  "black>=24.4",
+  "mypy>=1.10",
+  "pandera>=0.18",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/footballdata"]
+

@@ -1,0 +1,29 @@
+{
+  "fetched_at": "2025-11-10T19:19:40.029356Z",
+  "competition": {
+    "id": 2001,
+    "name": "UEFA Champions League",
+    "code": "CL",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/CL.png",
+    "area": {
+      "id": 2077,
+      "name": "Europe",
+      "code": "EUR",
+      "flag": "https://crests.football-data.org/EUR.svg"
+    }
+  },
+  "season": 2025,
+  "counts": {
+    "standings_rows": 0,
+    "teams": 36,
+    "matches_2025": 189,
+    "scorers": 50
+  },
+  "files": {
+    "standings_csv": "output\\cl_2025_standings.csv",
+    "teams_csv": "output\\cl_2025_teams.csv",
+    "matches_csv": "output\\cl_2025_matches.csv",
+    "scorers_csv": "output\\cl_2025_scorers.csv"
+  }
+}
