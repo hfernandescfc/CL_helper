@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FootballData Pipeline (DuckDB + Prefect)
 
 Pipeline de dados com camadas bronze/silver/gold, orquestrado com Prefect e armazenado em DuckDB. Saída para notebooks e Streamlit.
@@ -28,3 +29,7 @@ Pipeline de dados com camadas bronze/silver/gold, orquestrado com Prefect e arma
 - Queries de consumo (notebooks/Streamlit) devem ler preferencialmente de `gold`.
 - O flow usa watermark em `meta.ingestion_watermarks`.
 
+=======
+# CL_helper
+WIP
+>>>>>>> df990ed5c5281783c41b716aa05cf8d36982c7ee
