@@ -31,9 +31,86 @@ def _normalize_team_name(name: str | None) -> str:
     text = unicodedata.normalize("NFKD", name)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
     text = text.lower()
-    text = re.sub(r"\b(fc|cf|ac|club|the)\b", " ", text)
+    text = re.sub(r"\b(fc|cf|ac|afc|sc|fk|bk|sk|sv|ud|cd|club|the)\b", " ", text)
     text = re.sub(r"[^a-z0-9]+", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+TEAM_STOPWORDS = {
+    "fc",
+    "cf",
+    "ac",
+    "afc",
+    "sc",
+    "fk",
+    "bk",
+    "sk",
+    "sv",
+    "ud",
+    "cd",
+    "club",
+    "the",
+    "de",
+    "da",
+    "do",
+    "d",
+    "di",
+    "del",
+    "la",
+    "le",
+    "as",
+}
+
+TEAM_ALIASES = {
+    "internazionale milano": "inter milan",
+    "inter": "inter milan",
+    "sporting clube de portugal": "sporting lisbon",
+    "sporting clube portugal": "sporting lisbon",
+    "sporting cp": "sporting lisbon",
+    "club brugge": "brugge",
+    "club brugge kv": "brugge kv",
+    "fc kairat": "kairat",
+    "kairat almaty": "kairat",
+    "kobenhavn": "copenhagen",
+    "k benhavn": "copenhagen",
+    "fc copenhagen": "copenhagen",
+    "athletic": "athletic bilbao",
+    "athletic club": "athletic bilbao",
+    "atletico de madrid": "atletico madrid",
+    "olympiakos pae": "olympiakos",
+    "olympiakos sfp": "olympiakos",
+    "olympiakos piraeus": "olympiakos",
+    "pae olympiakos sfp": "olympiakos",
+    "qarabag agdam": "qarabag",
+    "qarabag fk": "qarabag",
+    "union saint gilloise": "union st gilloise",
+    "royale union saint gilloise": "union st gilloise",
+    "olympique de marseille": "marseille",
+    "psv": "psv eindhoven",
+    "bayern munchen": "bayern munich",
+    "paphos": "pafos",
+    "paphos fc": "pafos",
+    "sport lisboa e benfica": "benfica",
+    "sl benfica": "benfica",
+}
+
+
+def _team_key(name: str | None) -> str:
+    norm = _normalize_team_name(name)
+    if norm in TEAM_ALIASES:
+        norm = TEAM_ALIASES[norm]
+    if not norm:
+        return ""
+    tokens = []
+    for token in norm.split():
+        if token in TEAM_STOPWORDS:
+            continue
+        if token == "saint":
+            token = "st"
+        if token.isdigit():
+            continue
+        tokens.append(token)
+    return " ".join(sorted(tokens))
 
 
 @st.cache_data(ttl=1800)
@@ -110,6 +187,8 @@ def _build_odds_overview(odds_df: pd.DataFrame) -> pd.DataFrame:
     )
     overview["home_norm"] = overview["home_team"].apply(_normalize_team_name)
     overview["away_norm"] = overview["away_team"].apply(_normalize_team_name)
+    overview["home_key"] = overview["home_team"].apply(_team_key)
+    overview["away_key"] = overview["away_team"].apply(_team_key)
     return overview
 
 
@@ -134,20 +213,20 @@ def build_moneyline_summary(fixtures_df: pd.DataFrame, odds_df: pd.DataFrame) ->
         return pd.DataFrame()
 
     fixtures = fixtures_df.copy()
-    fixtures["home_norm"] = fixtures["home_team"].apply(_normalize_team_name)
-    fixtures["away_norm"] = fixtures["away_team"].apply(_normalize_team_name)
+    fixtures["home_key"] = fixtures["home_team"].apply(_team_key)
+    fixtures["away_key"] = fixtures["away_team"].apply(_team_key)
 
     odds = odds_df.copy()
     odds = odds[odds["market_key"] == "h2h"]
     if odds.empty:
         return pd.DataFrame()
-    odds["home_norm"] = odds["home_team"].apply(_normalize_team_name)
-    odds["away_norm"] = odds["away_team"].apply(_normalize_team_name)
+    odds["home_key"] = odds["home_team"].apply(_team_key)
+    odds["away_key"] = odds["away_team"].apply(_team_key)
 
     fixtures_subset = fixtures[
         [
-            "home_norm",
-            "away_norm",
+            "home_key",
+            "away_key",
             "matchday",
             "stage",
             "kickoff_local",
@@ -165,18 +244,19 @@ def build_moneyline_summary(fixtures_df: pd.DataFrame, odds_df: pd.DataFrame) ->
 
     merged = odds.merge(
         fixtures_subset,
-        on=["home_norm", "away_norm"],
+        on=["home_key", "away_key"],
         how="inner",
     )
     if merged.empty:
         return pd.DataFrame()
 
     def _map_outcome(row: pd.Series) -> str | None:
-        outcome_norm = _normalize_team_name(row["outcome_name"])
-        if outcome_norm == row["home_norm"]:
+        outcome_key = _team_key(row["outcome_name"])
+        if outcome_key == row["home_key"]:
             return "Mandante"
-        if outcome_norm == row["away_norm"]:
+        if outcome_key == row["away_key"]:
             return "Visitante"
+        outcome_norm = _normalize_team_name(row["outcome_name"])
         if outcome_norm in {"draw", "empate"}:
             return "Empate"
         return None
@@ -213,20 +293,20 @@ def build_totals_table(fixtures_df: pd.DataFrame, odds_df: pd.DataFrame) -> pd.D
         return pd.DataFrame()
 
     fixtures = fixtures_df.copy()
-    fixtures["home_norm"] = fixtures["home_team"].apply(_normalize_team_name)
-    fixtures["away_norm"] = fixtures["away_team"].apply(_normalize_team_name)
+    fixtures["home_key"] = fixtures["home_team"].apply(_team_key)
+    fixtures["away_key"] = fixtures["away_team"].apply(_team_key)
 
     odds = odds_df.copy()
     odds = odds[odds["market_key"] == "totals"]
     if odds.empty:
         return pd.DataFrame()
-    odds["home_norm"] = odds["home_team"].apply(_normalize_team_name)
-    odds["away_norm"] = odds["away_team"].apply(_normalize_team_name)
+    odds["home_key"] = odds["home_team"].apply(_team_key)
+    odds["away_key"] = odds["away_team"].apply(_team_key)
 
     fixtures_subset = fixtures[
         [
-            "home_norm",
-            "away_norm",
+            "home_key",
+            "away_key",
             "matchday",
             "stage",
             "kickoff_local",
@@ -242,7 +322,7 @@ def build_totals_table(fixtures_df: pd.DataFrame, odds_df: pd.DataFrame) -> pd.D
 
     odds = odds.drop(columns=["home_team", "away_team"], errors="ignore")
 
-    merged = odds.merge(fixtures_subset, on=["home_norm", "away_norm"], how="inner")
+    merged = odds.merge(fixtures_subset, on=["home_key", "away_key"], how="inner")
     if merged.empty:
         return pd.DataFrame()
 
@@ -698,9 +778,17 @@ else:
         fixture_row = selected_fixture_df.iloc[0]
         fixture_home = _normalize_team_name(fixture_row["home_team"])
         fixture_away = _normalize_team_name(fixture_row["away_team"])
-        exact = odds_overview[(odds_overview["home_norm"] == fixture_home) & (odds_overview["away_norm"] == fixture_away)]
-        swapped = odds_overview[(odds_overview["home_norm"] == fixture_away) & (odds_overview["away_norm"] == fixture_home)]
-        st.caption(f"Fixture norm: {fixture_home} x {fixture_away}")
+        fixture_home_key = _team_key(fixture_row["home_team"])
+        fixture_away_key = _team_key(fixture_row["away_team"])
+        exact = odds_overview[
+            (odds_overview["home_key"] == fixture_home_key) & (odds_overview["away_key"] == fixture_away_key)
+        ]
+        swapped = odds_overview[
+            (odds_overview["home_key"] == fixture_away_key) & (odds_overview["away_key"] == fixture_home_key)
+        ]
+        st.caption(
+            f"Fixture norm: {fixture_home} x {fixture_away} | key: {fixture_home_key} x {fixture_away_key}"
+        )
         if exact.empty and not swapped.empty:
             st.info("Odds encontradas com mandante/visitante invertidos (verifique normalizacao).")
             st.dataframe(

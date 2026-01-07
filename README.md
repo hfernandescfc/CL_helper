@@ -1,35 +1,66 @@
-<<<<<<< HEAD
 # FootballData Pipeline (DuckDB + Prefect)
 
-Pipeline de dados com camadas bronze/silver/gold, orquestrado com Prefect e armazenado em DuckDB. Saída para notebooks e Streamlit.
+End-to-end ETL/ELT pipeline for football data. It extracts match and odds data from Football-Data.org and The Odds API, loads it into DuckDB, and builds bronze/silver/gold layers for analytics, notebooks, and a Streamlit demo app.
 
-## Requisitos
+## Features
+- Automated daily ETL with Prefect flows
+- DuckDB warehouse with bronze/silver/gold layers
+- Optional backfill and metrics refresh flows
+- Streamlit app example for data exploration
+- Idempotent loading with watermarks
+
+## Data Sources
+- Football-Data.org API
+- The Odds API
+
+## Tech Stack
 - Python 3.10+
-- Dependências via `pyproject.toml`
+- Prefect 2.x
+- DuckDB
+- Pandas, PyArrow
+- Streamlit, Plotly
 
-## Setup
-1. Crie ambiente e instale deps:
-   - `pip install -e .[dev]`
-2. Copie `.env.example` para `.env` e preencha `FOOTBALL_DATA_API_KEY`.
-3. Inicialize schemas/metadata:
-   - `python -c "import duckdb; con=duckdb.connect('warehouse/warehouse.duckdb'); con.execute(open('sql/utils/00_init.sql').read()); print('OK')"`
+## Project Structure
+- `src/footballdata/`: core package (config, extract, transform, metrics, utils)
+- `flows/`: Prefect flows (daily, backfill, refresh)
+- `sql/`: SQL transformations for silver and gold
+- `warehouse/`: DuckDB database file
+- `app/`: Streamlit app
+- `data/raw/`: optional raw dumps
 
-## Executar Flow Diário
-- `python flows/daily_etl.py`
+## Quickstart
+1. Create a virtual env and install deps:
+   ```bash
+   pip install -e .[dev]
+   ```
+2. Copy env template:
+   ```bash
+   cp .env.example .env
+   ```
+3. Set your API keys in `.env`:
+   - `FOOTBALL_DATA_API_KEY`
+   - `ODDS_API_KEY`
+4. Initialize the DuckDB warehouse:
+   ```bash
+   python -c "import duckdb; con=duckdb.connect('warehouse/warehouse.duckdb'); con.execute(open('sql/utils/00_init.sql').read()); print('OK')"
+   ```
 
-## Estrutura
-- `src/footballdata`: pacote com config, IO (DuckDB), extratores, transformações e métricas
-- `sql/`: transformações SQL para `silver/` e `gold/`
-- `flows/`: flows Prefect para ETL diário, backfill e refresh de métricas
-- `app/`: app Streamlit de exemplo
-- `warehouse/`: arquivo DuckDB
-- `data/raw/`: dumps opcionais de extrações
+## Run the Daily Flow
+```bash
+python flows/daily_etl.py
+```
 
-## Notas
-- Queries de consumo (notebooks/Streamlit) devem ler preferencialmente de `gold`.
-- O flow usa watermark em `meta.ingestion_watermarks`.
+## Backfill and Metrics
+```bash
+python flows/backfill.py
+python flows/refresh_metrics.py
+```
 
-=======
-# CL_helper
-WIP
->>>>>>> df990ed5c5281783c41b716aa05cf8d36982c7ee
+## Streamlit App
+```bash
+streamlit run app/streamlit_app.py
+```
+
+## Notes
+- Analytical queries should read from `gold` tables when possible.
+- The pipeline uses watermarks in `meta.ingestion_watermarks` for idempotency.
